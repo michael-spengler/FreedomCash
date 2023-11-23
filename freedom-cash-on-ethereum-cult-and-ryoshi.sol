@@ -90,7 +90,8 @@ contract FreedomCash is ERC20 {
         return libertasCelebrationis[index];
     }
 
-    function receiveAirdrop() public {
+    function receiveAirdrop() isInEligiblesList(msg.sender) public {
+        require((airdropReceived[msg.sender] == false), "it seems this wallet already received the airdrop");
         for (uint256 i = 0; i < airdropEligibles.length; i++) {
             if (
                 msg.sender == airdropEligibles[i] &&
