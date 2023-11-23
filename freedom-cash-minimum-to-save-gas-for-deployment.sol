@@ -2,9 +2,10 @@
 // This is an homage to all who play for freedom and support the:
 // Hike to freedom / Поход к свободе / Wanderung in die Freiheit / Hike Ad Libertatem
 // Wir wollen sein eine einige Familie von Menschen. In keiner Not uns trennen und Gefahr.
-pragma solidity =0.8.11;
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.5/contracts/token/ERC20/ERC20.sol";
+pragma solidity ^0.8.20;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./library/Liquidity.sol";
+
 contract FreedomCash is ERC20 {
     struct StructuraLibertatis {
         address from;
@@ -12,7 +13,6 @@ contract FreedomCash is ERC20 {
         string text;
     }
     mapping(uint256 => StructuraLibertatis) public libertasCelebrationis;
-    mapping(address => bool) public airdropReceived;
     address public cult;
     address public ryoshi;
     uint256 public counter = 0;
@@ -32,8 +32,8 @@ contract FreedomCash is ERC20 {
         }
         nextBurnAfterXMoreWrites = counter % 369;
         if (nextBurnAfterXMoreWrites == 0) {
-            Liquidity.swap(address(this), cult, 1000000, 45000, Liquidity.DEAD_ADDRESS);
-            Liquidity.swap(address(this), ryoshi, 100000, 4500, Liquidity.DEAD_ADDRESS);
+            // Liquidity.swap(address(this), cult, 1000000, 45000, Liquidity.DEAD_ADDRESS);
+            // Liquidity.swap(address(this), ryoshi, 100000, 4500, Liquidity.DEAD_ADDRESS);
         }
     }
     function read(uint256 index) public view returns (StructuraLibertatis memory) {

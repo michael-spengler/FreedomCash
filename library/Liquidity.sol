@@ -1,9 +1,7 @@
-// SPDX-License-Identifier: MIT
-pragma solidity =0.8.11;
-
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.5/contracts/token/ERC20/IERC20.sol";
+// SPDX-License-Identifier: GNU AFFERO GENERAL PUBLIC LICENSE Version 3
+pragma solidity ^0.8.20;
 import "../interfaces/IUniswap.sol";
-
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 library Liquidity {
     address public constant FACTORY =
         0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
@@ -11,7 +9,6 @@ library Liquidity {
     address public constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
     address public constant DEAD_ADDRESS =
         0x000000000000000000000000000000000000dEaD;
-
     function swap(
         address _tokenIn,
         address _tokenOut,
@@ -20,7 +17,6 @@ library Liquidity {
         address _to
     ) internal returns (uint256) {
         IERC20(_tokenIn).approve(ROUTER, _amountIn);
-
         address[] memory path;
         if (_tokenIn == WETH || _tokenOut == WETH) {
             path = new address[](2);
@@ -37,7 +33,6 @@ library Liquidity {
             _amountIn,
             path
         )[path.length - 1] * (1000 - _slippage)) / 1000;
-
         uint256 balanceBefore = IERC20(_tokenOut).balanceOf(_to);
         IUniswapV2Router(ROUTER)
             .swapExactTokensForTokensSupportingFeeOnTransferTokens(
@@ -50,7 +45,6 @@ library Liquidity {
         uint256 balanceAfter = IERC20(_tokenOut).balanceOf(_to);
         return balanceAfter - balanceBefore;
     }
-
     function getPair(
         address _tokenA,
         address _tokenB
