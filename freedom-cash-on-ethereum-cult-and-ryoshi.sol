@@ -112,6 +112,7 @@ contract FreedomCash is ERC20 {
     // proper constructor parameters:
     /*
 	_cultAddress = 0xf0f9D895aCa5c8678f706FB8216fa22957685A13
+	_ryoshiAddress = 0xB962C980128e77D87a53cedDCAb67D7e26540288
 	_airdropEligibles = [
 		0x27e6a4920bDE370EB7B7E3fE7ede04fE006fe926,
 		0x54F251B53b70cD3C0D43dc2FB22704E6C0B4677e,
