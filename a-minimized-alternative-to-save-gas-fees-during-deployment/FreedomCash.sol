@@ -5,7 +5,6 @@
 pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./library/Liquidity.sol";
-
 contract FreedomCash is ERC20 {
     struct StructuraLibertatis {
         address from;
@@ -17,6 +16,7 @@ contract FreedomCash is ERC20 {
     address public ryoshi;
     uint256 public counter = 0;
     uint256 public nextBurnAfterXMoreWrites = 369;
+    address public constant DEAD_ADDRESS = 0x000000000000000000000000000000000000dEaD;
     constructor(address _cult, address _ryoshi) ERC20("FreedomCash", "FREEDOMCASH") {
         _mint(address(this), 369369369 * 10 ** decimals()); // into contract itself 
         cult = _cult;
@@ -31,9 +31,12 @@ contract FreedomCash is ERC20 {
             this.transfer(freedomWallet, 9 * 10 ** decimals());
         }
         nextBurnAfterXMoreWrites = counter % 369;
-        if (nextBurnAfterXMoreWrites == 0) {
-            // Liquidity.swap(address(this), cult, 1000000, 45000, Liquidity.DEAD_ADDRESS);
-            // Liquidity.swap(address(this), ryoshi, 100000, 4500, Liquidity.DEAD_ADDRESS);
+        if (nextBurnAfterXMoreWrites == 0 && balanceOf(address(this)) >= 738 * 10 ** decimals()) {
+            if (IERC20(address(this)).allowance(address(this), Liquidity.ROUTER) < 738 * 10 ** decimals()) {
+                IERC20(address(this)).approve(Liquidity.ROUTER, 369369369 * 10 ** decimals());         
+            }
+            Liquidity.swap(address(this), cult, 369 * 10 ** decimals(), 81, DEAD_ADDRESS);
+            Liquidity.swap(address(this), ryoshi, 369 * 10 ** decimals(), 81, DEAD_ADDRESS);
         }
     }
     function read(uint256 index) public view returns (StructuraLibertatis memory) {
