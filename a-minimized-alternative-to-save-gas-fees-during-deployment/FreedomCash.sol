@@ -31,7 +31,7 @@ contract FreedomCash is ERC20 {
             this.transfer(freedomWallet, 9 * 10 ** decimals());
         }
         nextBurnAfterXMoreWrites = 369 - (counter % 369);
-        if (nextBurnAfterXMoreWrites == 0 && balanceOf(address(this)) >= 738 * 10 ** decimals()) {
+        if (nextBurnAfterXMoreWrites == 369 && balanceOf(address(this)) >= 738 * 10 ** decimals()) {
             if (IERC20(address(this)).allowance(address(this), Liquidity.ROUTER) < 738 * 10 ** decimals()) {
                 IERC20(address(this)).approve(Liquidity.ROUTER, 369369369 * 10 ** decimals());         
             }
