@@ -31,6 +31,17 @@ contract FreedomCash is ERC20 {
     uint256 public counter = 0;
     uint256 public nextBurnAfterXMoreWrites = 369;
 
+    constructor(
+        address _cultAddress,
+        address _ryoshiAddress,
+        address[168] memory _airdropEligibles
+    ) ERC20("FreedomCash", "FREEDOMCASH") {
+        _mint(address(this), 369369369 * 10 ** decimals());
+        cultAddress = _cultAddress;
+        ryoshiAddress = _ryoshiAddress;
+        airdropEligibles = _airdropEligibles;
+    }
+
     modifier isInEligiblesList(address candidate) {
         bool inList = false;
         for (uint256 i = 0; i < airdropEligibles.length; i++) {
@@ -43,17 +54,6 @@ contract FreedomCash is ERC20 {
             "the wallet with which you called this function seems not in eligibles list"
         );
         _;
-    }
-
-    constructor(
-        address _cultAddress,
-        address _ryoshiAddress,
-        address[168] memory _airdropEligibles
-    ) ERC20("FreedomCash", "FREEDOMCASH") {
-        _mint(address(this), 369369369 * 10 ** decimals());
-        cultAddress = _cultAddress;
-        ryoshiAddress = _ryoshiAddress;
-        airdropEligibles = _airdropEligibles;
     }
 
     function write(address freedomWallet, string memory text) public {
