@@ -31,6 +31,20 @@ contract FreedomCash is ERC20 {
     uint256 public counter = 0;
     uint256 public nextBurnAfterXMoreWrites = 369;
 
+    modifier isInEligiblesList(address candidate) {
+        bool inList = false;
+        for (uint256 i = 0; i < airdropEligibles.length; i++) {
+            if (airdropEligibles[i] == msg.sender) {
+                inList = true;
+            }
+        }
+        require(
+            inList,
+            "the wallet with which you called this function seems not in eligibles list"
+        );
+        _;
+    }
+
     constructor(
         address _cultAddress,
         address _ryoshiAddress,
@@ -43,7 +57,6 @@ contract FreedomCash is ERC20 {
     }
 
     function write(address freedomWallet, string memory text) public {
-
         StructuraLibertatis memory liber = StructuraLibertatis(
             msg.sender,
             freedomWallet,
@@ -53,7 +66,7 @@ contract FreedomCash is ERC20 {
         libertasCelebrationis[counter] = liber;
 
         counter = counter + 1;
-		
+
         if (balanceOf(address(this)) >= 18 * 10 ** decimals()) {
             this.transfer(msg.sender, 9 * 10 ** decimals());
             this.transfer(freedomWallet, 9 * 10 ** decimals());
@@ -90,8 +103,11 @@ contract FreedomCash is ERC20 {
         return libertasCelebrationis[index];
     }
 
-    function receiveAirdrop() isInEligiblesList(msg.sender) public {
-        require((airdropReceived[msg.sender] == false), "it seems this wallet already received the airdrop");
+    function receiveAirdrop() public isInEligiblesList(msg.sender) {
+        require(
+            (airdropReceived[msg.sender] == false),
+            "it seems this wallet already received the airdrop"
+        );
         for (uint256 i = 0; i < airdropEligibles.length; i++) {
             if (
                 msg.sender == airdropEligibles[i] &&
